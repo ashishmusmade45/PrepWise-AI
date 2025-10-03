@@ -108,9 +108,3 @@ PrepWiseAI/
 ## 🙌 Contribution
 
 Pull requests are welcome. Feel free to fork this repo and suggest improvements.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
