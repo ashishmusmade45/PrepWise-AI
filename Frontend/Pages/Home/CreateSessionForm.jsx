@@ -48,6 +48,7 @@ const CreateSessionForm = ({ onSuccess, onCancel }) => {
                 navigate(`/interview-prep/${newSessionId}`);
             } else if (onSuccess) onSuccess();
         } catch (err) {
+            console.log("")
             setError("Something went wrong.");
         } finally {
             setIsLoading(false);
