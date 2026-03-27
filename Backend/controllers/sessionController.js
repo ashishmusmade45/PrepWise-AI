@@ -60,7 +60,24 @@ const createSession = async (req, res) => {
 
         res.status(201).json(populatedSession);
     } catch (error) {
-        res.status(500).json({ message: "Server Error", error: error.message });
+        const errMsg = String(error?.message || error);
+        const isQuotaIssue = errMsg.toLowerCase().includes("quota") || errMsg.includes("429");
+        if (isQuotaIssue) {
+            return res.status(429).json({
+                code: "GEMINI_QUOTA_EXCEEDED",
+                message:
+                    "AI generation is temporarily unavailable because this Google API key has no remaining Gemini quota for this model.",
+                steps: [
+                    "Open Google AI Studio (or Google Cloud Console for the project that owns this API key).",
+                    "Enable billing for the project (or upgrade from free tier).",
+                    "Make sure the Gemini API is enabled for the project.",
+                    "Check quotas/rate limits for the Gemini API and request an increase if needed.",
+                    "Wait a minute and retry creating the session.",
+                ],
+                debug: errMsg,
+            });
+        }
+        res.status(500).json({ message: "Server Error", error: errMsg });
     }
 };
 

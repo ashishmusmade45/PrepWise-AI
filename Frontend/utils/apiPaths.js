@@ -1,5 +1,6 @@
 // Base API URL - change this to match your backend server
-export const BASE_URL = 'https://prepwise-ai-3v0x.onrender.com/api';
+// IMPORTANT: keep secrets (Gemini key) in backend only. Frontend should call your backend URL.
+export const BASE_URL = 'http://localhost:8000/api';
 
 // Authentication endpoints
 export const AUTH_PATHS = {

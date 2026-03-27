@@ -48,8 +48,17 @@ const CreateSessionForm = ({ onSuccess, onCancel }) => {
                 navigate(`/interview-prep/${newSessionId}`);
             } else if (onSuccess) onSuccess();
         } catch (err) {
-            console.log("")
-            setError("Something went wrong.");
+            const data = err?.response?.data;
+            if (data?.code === "GEMINI_QUOTA_EXCEEDED") {
+                setError(
+                    "AI generation is currently unavailable (Gemini quota/billing issue). " +
+                    "Fix: enable billing for the Google project that owns your API key, ensure Gemini API is enabled, " +
+                    "then retry in 1–2 minutes."
+                );
+            } else {
+                const serverMsg = data?.message || data?.error;
+                setError(serverMsg || "Something went wrong.");
+            }
         } finally {
             setIsLoading(false);
         }

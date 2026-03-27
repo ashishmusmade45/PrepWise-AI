@@ -63,7 +63,8 @@ const Interview= ()=>{
             const response = await axiosInstance.post("/ai/generate-explanation", { question: questionText });
             setExplanationMap(prev => ({ ...prev, [questionId]: response.data.explanation || JSON.stringify(response.data) }));
         } catch (error) {
-            setExplanationMap(prev => ({ ...prev, [questionId]: "Failed to load explanation." }));
+            const serverMsg = error?.response?.data?.message || error?.response?.data?.error;
+            setExplanationMap(prev => ({ ...prev, [questionId]: serverMsg || "Failed to load explanation." }));
         } finally {
             setLoadingMap(prev => ({ ...prev, [questionId]: false }));
         }
